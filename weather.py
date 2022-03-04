@@ -17,7 +17,7 @@ def find_weather_info(soup):
     container = {}
     location = ""
     weather = ""
-    temperature = ""
+    temperature = []
     highest = ""
     lowest = ""
     fine_dust = ""
@@ -32,8 +32,10 @@ def find_weather_info(soup):
     container['오늘 날씨'] = weather
 
     for i in soup.select('div[class=temperature_text]'):
-        temperature = i.text[-3:-1]
-    container['현재 기온'] = temperature
+        temp = i.text[6:-1]
+        temperature.append(temp)
+    print(temperature)
+    container['현재 기온'] = temperature[0]
 
     for i in soup.select('span[class=highest]')[0]:
         highest = i.text
