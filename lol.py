@@ -1,4 +1,5 @@
 import cfscrape
+import re
 from urllib import parse
 from bs4 import BeautifulSoup
 
@@ -21,11 +22,11 @@ def find_lol_info(soup):
     losses = []
     win_ratio = []
 
-    for i in soup.select('span[class=Name]'):
+    for i in soup.select('span[class=name]'):
         player = i.text
     container['Player'] = player
 
-    for i in soup.select('div[class=TierRank]'):
+    for i in soup.select('div[class=tier-rank]'):
         solo_ranking = i.text
     container['SoloRanking'] = solo_ranking
 
@@ -33,16 +34,26 @@ def find_lol_info(soup):
         container['SoloRanking'] = "unrank"
         return container
 
-    for i in soup.select('span[class=wins]'):
-        wins = i.text
+    for i in soup.select('span[class=win-lose]'):
+        record = i.text
+        sp_record = record.split()
+        only_num = [re.sub(r'[^0-9]', '', i) for i in sp_record]
+        wins = only_num[0]
+        losses = only_num[1]
+        win_ratio = only_num[3]
     container['승'] = wins
-
-    for i in soup.select('span[class=losses]'):
-        losses = i.text
     container['패'] = losses
-
-    for i in soup.select('span[class=winratio]'):
-        win_ratio = i.text
     container['승률'] = win_ratio
 
+#    for i in soup.select('span[class=losses]'):
+#        losses = i.text
+#    container['패'] = losses
+#
+#    for i in soup.select('span[class=winratio]'):
+#        win_ratio = i.text
+#    container['승률'] = win_ratio
+
     return container
+
+if __name__ == '__main__':
+    get_webpage('느금마카롱')

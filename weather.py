@@ -34,7 +34,6 @@ def find_weather_info(soup):
     for i in soup.select('div[class=temperature_text]'):
         temp = i.text[6:-1]
         temperature.append(temp)
-    print(temperature)
     container['현재 기온'] = temperature[0]
 
     for i in soup.select('span[class=highest]')[0]:
