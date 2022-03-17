@@ -2,12 +2,14 @@ import telegram
 import lol
 import weather
 import stock
+import listing
+
 from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
-import requests
-import cfscrape
-from urllib import parse
-from bs4 import BeautifulSoup
+#import requests
+#import cfscrape
+#from urllib import parse
+#from bs4 import BeautifulSoup
 
 # telegram Bot API
 api_key = '5066924599:AAFO6EyWswaUiWKGSAoIOaaKwdCEiMt1gaU'
@@ -41,7 +43,7 @@ def handler(update, context):
         bot.send_message(chat_id=chat_id, text=league_of_legends)
 
     if command[1] == "2":
-        weather_web = weather.get_webpage("날씨")
+        weather_web = weather.get_webpage("서울날씨")
         weather_web_li = [str(f'{k} : {v}') for k, v in weather_web.items()]
         weather_data = '\n'.join(weather_web_li)
 
@@ -63,6 +65,12 @@ def handler(update, context):
 
         # set stock_data
         bot.send_message(chat_id=chat_id, text=stock_data)
+
+    if command[1] == "4":
+        listing_info = listing.get_webpage()
+        listing_data = '\n'.join(listing_info)
+
+        bot.send_message(chat_id=chat_id, text=listing_data)
 
 echo_handler = MessageHandler(Filters.text, handler)
 dispatcher.add_handler(echo_handler)
