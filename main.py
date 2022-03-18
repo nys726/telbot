@@ -2,7 +2,7 @@ import telegram
 import lol
 import weather
 import stock
-import listing
+import competition_stock
 
 from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
@@ -67,7 +67,7 @@ def handler(update, context):
         bot.send_message(chat_id=chat_id, text=stock_data)
 
     if command[1] == "4":
-        listing_info = listing.get_webpage()
+        listing_info = competition_stock.get_webpage()
         listing_data = '\n'.join(listing_info)
 
         bot.send_message(chat_id=chat_id, text=listing_data)
